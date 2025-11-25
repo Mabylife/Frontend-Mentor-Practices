@@ -141,4 +141,36 @@ h1 {
     flex-wrap: wrap;
   }
 }
+
+@media (max-width: 600px) {
+  .quickView-container {
+    flex-direction: column;
+    padding: 2.56rem 0 2.56rem 0;
+    justify-content: center;
+    align-items: center;
+  }
+  .left > h4,
+  .left > h6 {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 414px) {
+  .quickView-container {
+    background-image: url(/assets/images/bg-today-small.svg);
+  }
+  .right h1 {
+    transform: translateX(-1.5rem);
+  }
+  .blocks-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 1rem var(--spacing-200, 1rem);
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+}
 </style>

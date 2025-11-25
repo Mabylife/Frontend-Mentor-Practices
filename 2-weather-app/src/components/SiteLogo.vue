@@ -9,6 +9,10 @@
 <style scoped>
 .Sitelogo-container {
   height: 100%;
+  width: max-content;
+}
+img {
+  height: 100%;
   width: auto;
 }
 </style>

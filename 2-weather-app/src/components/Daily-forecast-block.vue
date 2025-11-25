@@ -67,4 +67,10 @@ p {
   align-items: center;
   align-self: stretch;
 }
+
+@media (max-width: 414px) {
+  .dailyForecastBlock-container {
+    flex: 0 0 calc(33.3% - 0.66rem);
+  }
+}
 </style>

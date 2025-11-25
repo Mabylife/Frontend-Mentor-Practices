@@ -42,4 +42,11 @@ h1 {
     line-height: 120%; /* 3.9rem */
   }
 }
+
+@media (max-width: 414px) {
+  .siteTitle-container {
+    width: 100%;
+    max-width: none;
+  }
+}
 </style>

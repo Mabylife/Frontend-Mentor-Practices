@@ -109,6 +109,17 @@ import HourlyForecast from './components/Hourly-forecast..vue'
 
 @media (max-width: 414px) {
   .container {
+    display: flex;
+    width: 100%;
+    padding: var(--spacing-200, 1rem) var(--spacing-200, 1rem) var(--spacing-600, 3rem)
+      var(--spacing-200, 1rem);
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-600, 3rem);
+  }
+
+  .top-container {
+    max-height: 2.0625rem;
   }
 }
 </style>

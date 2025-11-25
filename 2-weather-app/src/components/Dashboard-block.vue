@@ -46,5 +46,6 @@ h3 {
   font-style: normal;
   font-weight: 300;
   line-height: 100%; /* 2rem */
+  text-wrap: nowrap;
 }
 </style>

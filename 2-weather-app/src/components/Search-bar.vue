@@ -43,6 +43,8 @@ img {
 input {
   color: var(--colors-neutral-200, #d4d3d9);
 
+  cursor: text;
+
   background: none;
   border: none;
   outline: none;
@@ -96,6 +98,14 @@ button.submit {
 
 @media (max-width: 560px) {
   button.submit {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 414px) {
+  .input-container {
     width: 100%;
   }
 }
