@@ -44,6 +44,7 @@ import HourlyForecast from './components/Hourly-forecast..vue'
   width: 100%;
   display: flex;
   justify-content: space-between;
+  max-height: 2.5rem;
 }
 
 .main-container {

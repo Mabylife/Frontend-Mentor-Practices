@@ -2,21 +2,86 @@
 
 <template>
   <div class="searchBar-container">
-    <div class="input-container">
-      <img src="/assets/images/icon-search.svg" alt="search icon" />
-      <input
-        type="text"
-        name="Search for place"
-        id="searchPlace"
-        placeholder="Search for a place..."
-      />
+    <div class="search-container">
+      <div class="input-container">
+        <img src="/assets/images/icon-search.svg" alt="search icon" />
+        <input
+          type="text"
+          name="Search for place"
+          id="searchPlace"
+          placeholder="Search for a place..."
+        />
+      </div>
+      <div class="searchDropdown-container">
+        <button class="option">City Name</button>
+        <button class="option">City Name</button>
+        <button class="option">City Name</button>
+        <button class="option">City Name</button>
+      </div>
     </div>
     <button class="submit" type="submit">Search</button>
   </div>
 </template>
 
 <style scoped>
+.search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.62rem;
+}
+
+.searchDropdown-container {
+  z-index: 10 !important;
+
+  display: flex;
+  width: 100%;
+  padding: var(--spacing-100, 0.5rem);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-050, 0.25rem);
+
+  border-radius: var(--corner-radius-12, 0.75rem);
+  border: 1px solid var(--colors-neutral-700, #302f4a);
+  background: var(--colors-neutral-800, #262540);
+}
+
+.option {
+  display: flex;
+  padding: var(--spacing-125, 0.625rem) var(--spacing-100, 0.5rem);
+  align-items: center;
+  gap: var(--spacing-125, 0.625rem);
+  align-self: stretch;
+  width: 100%;
+
+  border-radius: var(--corner-radius-8, 0.5rem);
+  background-color: transparent;
+  border: 1px solid transparent;
+
+  color: #fff;
+
+  /* text-preset-7 */
+  font-family: 'DM Sans';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%; /* 1.2rem */
+}
+
+.option:hover {
+  display: flex;
+  padding: var(--spacing-125, 0.625rem) var(--spacing-100, 0.5rem);
+  align-items: center;
+  gap: var(--spacing-125, 0.625rem);
+  align-self: stretch;
+
+  border-radius: var(--corner-radius-8, 0.5rem);
+  border: 1px solid var(--colors-neutral-600, #3c3b5e);
+  background: var(--colors-neutral-700, #302f4a);
+}
+
 .searchBar-container {
+  max-height: 3.5rem;
+
   display: flex;
   width: 41rem;
   align-items: flex-start;
@@ -48,6 +113,8 @@ input {
   background: none;
   border: none;
   outline: none;
+
+  width: 100%;
 
   /* text-preset-5 (Medium) */
   font-family: 'DM Sans';
