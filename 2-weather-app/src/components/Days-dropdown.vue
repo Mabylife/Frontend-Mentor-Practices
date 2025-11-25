@@ -1,12 +1,20 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const isOpen = ref(false)
+
+function toggleIsOpen() {
+  isOpen.value = !isOpen.value
+}
+</script>
 
 <template>
   <div class="daysDropdown-container">
-    <button>
+    <button @click="toggleIsOpen">
       <span>Tuesday</span>
       <img src="/assets/images/icon-dropdown.svg" alt="" />
     </button>
-    <div class="dropdown-container">
+    <div class="dropdown-container" v-if="isOpen">
       <button class="option">Monday</button>
       <button class="option">Tuesday</button>
       <button class="option">Wednesday</button>
@@ -25,6 +33,7 @@
   gap: 0.62rem;
   align-items: flex-end;
   max-height: 2.3125rem;
+  max-width: 7.5rem;
 }
 
 button {

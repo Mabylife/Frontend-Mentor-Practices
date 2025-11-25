@@ -2,15 +2,19 @@
 import { ref } from 'vue'
 
 const isOpen = ref(false)
+
+function toggleIsOpen() {
+  isOpen.value = !isOpen.value
+}
 </script>
 
 <template>
   <div class="units-dropdown-container">
-    <button>
+    <button @click="toggleIsOpen()">
       <img src="/assets/images/icon-units.svg" alt="setting icon" />
       <span>Units</span>
     </button>
-    <div class="dropdownList">
+    <div class="dropdownList" v-if="isOpen">
       <button class="option">Switch to Imperial</button>
       <div class="optionsGroup">
         <span class="label">Temperature</span>

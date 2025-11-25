@@ -1,8 +1,24 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+
+const props = defineProps({
+  property: {
+    type: String,
+    required: true,
+  },
+})
+
+const title = ref('')
+const value = ref(0)
+
+const valueOutput = ref('')
+
+title.value = props.property
+</script>
 
 <template>
   <div class="DashBoardBlock-container">
-    <H6>Property</H6>
+    <h6>{{ property }}</h6>
     <h3>0 unit</h3>
   </div>
 </template>

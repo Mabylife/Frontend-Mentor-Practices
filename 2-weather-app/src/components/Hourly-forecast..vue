@@ -45,6 +45,9 @@ import HourlyForecastBlock from './Hourly-forecast-block.vue'
 h5 {
   color: var(--colors-neutral-0, #fff);
 
+  max-height: 2.3125rem;
+  text-wrap: nowrap;
+
   /* text-preset-5 */
   font-family: 'DM Sans';
   font-size: 1.25rem;

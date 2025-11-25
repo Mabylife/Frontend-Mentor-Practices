@@ -15,10 +15,10 @@ import DashboardBlock from './Dashboard-block.vue'
       </div>
     </div>
     <div class="blocks-container">
-      <DashboardBlock />
-      <DashboardBlock />
-      <DashboardBlock />
-      <DashboardBlock />
+      <DashboardBlock :property="'Feels Like'" />
+      <DashboardBlock :property="'Humidity'" />
+      <DashboardBlock :property="'Wind'" />
+      <DashboardBlock :property="'Precipitation'" />
     </div>
   </div>
 </template>

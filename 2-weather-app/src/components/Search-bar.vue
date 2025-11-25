@@ -1,4 +1,16 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+const hasInput = ref(false)
+const inputValue = ref('')
+
+function checkInput() {
+  if (inputValue.value !== '') {
+    hasInput.value = true
+  } else {
+    hasInput.value = false
+  }
+}
+</script>
 
 <template>
   <div class="searchBar-container">
@@ -6,13 +18,15 @@
       <div class="input-container">
         <img src="/assets/images/icon-search.svg" alt="search icon" />
         <input
+          @input="checkInput()"
+          v-model="inputValue"
           type="text"
           name="Search for place"
           id="searchPlace"
           placeholder="Search for a place..."
         />
       </div>
-      <div class="searchDropdown-container">
+      <div v-if="hasInput" class="searchDropdown-container">
         <button class="option">City Name</button>
         <button class="option">City Name</button>
         <button class="option">City Name</button>
