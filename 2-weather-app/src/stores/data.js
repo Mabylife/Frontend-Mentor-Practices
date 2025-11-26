@@ -38,7 +38,6 @@ export const useWeatherStore = defineStore('weatherData', () => {
   }
 
   async function getCurrentData() {
-    await getCoordinatesByCity()
     await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&models=best_match&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,weather_code,apparent_temperature`,
     )
@@ -79,5 +78,7 @@ export const useWeatherStore = defineStore('weatherData', () => {
     uSpeed,
     city,
     country,
+    latitude,
+    longitude,
   }
 })

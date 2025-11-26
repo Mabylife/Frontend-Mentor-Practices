@@ -1,14 +1,62 @@
 <script setup>
 import { ref } from 'vue'
+import { useWeatherStore } from '@/stores/data'
+
+const store = useWeatherStore()
+
 const hasInput = ref(false)
 const inputValue = ref('')
 
+const searchResults = ref([])
+const comfrimedNoResult = ref(false)
+const isSearching = ref(false)
+
 function checkInput() {
-  if (inputValue.value !== '') {
+  if (inputValue.value.length > 1) {
     hasInput.value = true
+    searchResults.value = []
+    displaySearchResult()
   } else {
     hasInput.value = false
+    searchResults.value = []
   }
+}
+
+function handleSelect(result) {
+  store.latitude = result.latitude
+  store.longitude = result.longitude
+
+  // apply names to store.country and store.city
+
+  store.getCurrentData()
+  searchResults.value = []
+  inputValue.value = ''
+  checkInput()
+}
+
+async function displaySearchResult() {
+  isSearching.value = true
+  try {
+    const response = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${inputValue.value}&count=5&language=en&format=json`,
+    )
+    if (!response.ok) {
+      throw new Error('geocoding api error')
+    }
+    const data = await response.json()
+    if (data.results && data.results.length > 0) {
+      searchResults.value = data.results
+      comfrimedNoResult.value = false
+    } else {
+      searchResults.value = []
+      comfrimedNoResult.value = true
+    }
+  } catch (error) {
+    searchResults.value = []
+    console.log(error)
+  }
+  console.log('searchResults:', searchResults.value)
+  isSearching.value = false
 }
 </script>
 
@@ -27,10 +75,27 @@ function checkInput() {
         />
       </div>
       <div v-if="hasInput" class="searchDropdown-container">
-        <button class="option">City Name</button>
-        <button class="option">City Name</button>
-        <button class="option">City Name</button>
-        <button class="option">City Name</button>
+        <!-- loading indicator -->
+        <button v-if="hasInput && searchResults.length < 1 && isSearching" class="option loading">
+          <img src="/assets/images/icon-loading.svg" alt="loading" />
+          Search in progress
+        </button>
+
+        <!-- no result indicator -->
+        <button v-if="comfrimedNoResult && !isSearching" class="option">
+          <img src="/assets/images/icon-error.svg" alt="loading" />
+          No results found
+        </button>
+
+        <button
+          v-if="hasInput && searchResults.length > 0"
+          v-for="(result, index) in searchResults"
+          @click="handleSelect(result)"
+          :key="result.id || index"
+          class="option"
+        >
+          {{ result.name }}
+        </button>
       </div>
     </div>
     <button class="submit" type="submit">Search</button>
