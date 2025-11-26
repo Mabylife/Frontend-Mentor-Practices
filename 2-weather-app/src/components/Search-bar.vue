@@ -134,6 +134,8 @@ async function displaySearchResult() {
 }
 
 .searchDropdown-container {
+  position: absolute;
+  top: 4.12rem;
   z-index: 10 !important;
 
   display: flex;
@@ -183,8 +185,7 @@ async function displaySearchResult() {
 }
 
 .searchBar-container {
-  max-height: 3.5rem;
-
+  position: relative;
   display: flex;
   width: 41rem;
   align-items: flex-start;
@@ -258,11 +259,15 @@ button.submit {
   }
   .input-container {
     flex-grow: 1;
-    width: auto;
+    width: 100%;
   }
 
   .input-container > input {
     width: 100%;
+  }
+
+  .search-container {
+    flex-grow: 1;
   }
 }
 
@@ -271,6 +276,12 @@ button.submit {
     width: 100%;
     text-align: center;
     justify-content: center;
+  }
+  .search-container {
+    width: 100%;
+  }
+  .input-container {
+    width: 100%;
   }
 }
 

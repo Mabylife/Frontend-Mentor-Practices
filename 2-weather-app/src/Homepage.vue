@@ -63,7 +63,7 @@ store.getCurrentData()
 
 .main-bottom-container {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 2rem;
   align-self: stretch;
   justify-content: center;
@@ -74,6 +74,7 @@ store.getCurrentData()
   width: 50rem;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
   gap: var(--spacing-600, 3rem);
 }
 

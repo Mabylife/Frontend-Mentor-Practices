@@ -96,6 +96,8 @@ h6 {
   font-style: normal;
   font-weight: 500;
   line-height: 120%; /* 1.35rem */
+
+  text-wrap: nowrap;
 }
 
 h3 {
