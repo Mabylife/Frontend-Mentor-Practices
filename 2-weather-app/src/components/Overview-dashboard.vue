@@ -5,11 +5,8 @@ import { useWeatherStore } from '@/stores/data'
 
 const store = useWeatherStore()
 
-const loading = ref(true)
-
 onMounted(async () => {
   await store.getCurrentData()
-  loading.value = false
 })
 
 const now = ref()
@@ -42,23 +39,28 @@ const monthName = months[now.value.getMonth()]
   <div class="overviewDashboard-container">
     <div class="quickView-container">
       <div class="left">
-        <h4 v-if="loading">Loading...</h4>
-        <h4 v-if="!loading">
-          {{ store.city }}<span v-if="store.country">, </span>{{ store.country }}
+        <h4 v-if="store.loading">Loading...</h4>
+        <h4 v-if="!store.loading">
+          {{ store.displayName }}
         </h4>
         <h6>{{ weekDay }}, {{ monthName }} {{ day }}, {{ year }}</h6>
       </div>
       <div class="right">
-        <img src="/assets/images/icon-snow.webp" class="icon" alt="weather indicator" />
-        <h1 v-if="loading">- °</h1>
-        <h1 v-if="!loading">{{ store.temperature }}°</h1>
+        <img
+          v-if="!store.loading"
+          :src="store.code2icon(store.weatherCode)"
+          class="icon"
+          alt="weather indicator"
+        />
+        <h1 v-if="store.loading">- °</h1>
+        <h1 v-if="!store.loading">{{ store.temperature }}°</h1>
       </div>
     </div>
     <div class="blocks-container">
-      <DashboardBlock :isLoading="loading" :property="'Feels Like'" />
-      <DashboardBlock :isLoading="loading" :property="'Humidity'" />
-      <DashboardBlock :isLoading="loading" :property="'Wind'" />
-      <DashboardBlock :isLoading="loading" :property="'Precipitation'" />
+      <DashboardBlock :isLoading="store.loading" :property="'Feels Like'" />
+      <DashboardBlock :isLoading="store.loading" :property="'Humidity'" />
+      <DashboardBlock :isLoading="store.loading" :property="'Wind'" />
+      <DashboardBlock :isLoading="store.loading" :property="'Precipitation'" />
     </div>
   </div>
 </template>

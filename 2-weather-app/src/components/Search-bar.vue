@@ -22,16 +22,26 @@ function checkInput() {
   }
 }
 
-function handleSelect(result) {
+async function handleSelect(result) {
   store.latitude = result.latitude
   store.longitude = result.longitude
+  store.displayName = parseName(result)
 
   // apply names to store.country and store.city
 
-  store.getCurrentData()
   searchResults.value = []
   inputValue.value = ''
   checkInput()
+
+  await store.getCurrentData()
+}
+
+function parseName(result) {
+  if (result.name === result.country) {
+    return result.country
+  } else {
+    return result.name + ', ' + result.country
+  }
 }
 
 async function displaySearchResult() {
@@ -77,7 +87,7 @@ async function displaySearchResult() {
       <div v-if="hasInput" class="searchDropdown-container">
         <!-- loading indicator -->
         <button v-if="hasInput && searchResults.length < 1 && isSearching" class="option loading">
-          <img src="/assets/images/icon-loading.svg" alt="loading" />
+          <img class="spinner" src="/assets/images/icon-loading.svg" alt="loading" />
           Search in progress
         </button>
 
@@ -94,7 +104,7 @@ async function displaySearchResult() {
           :key="result.id || index"
           class="option"
         >
-          {{ result.name }}
+          {{ parseName(result) }}
         </button>
       </div>
     </div>
@@ -103,6 +113,19 @@ async function displaySearchResult() {
 </template>
 
 <style scoped>
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .search-container {
   display: flex;
   flex-direction: column;
