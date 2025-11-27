@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useWeatherStore } from '@/stores/data'
 
+const store = useWeatherStore()
 const isOpen = ref(false)
 
 function toggleIsOpen() {
@@ -15,23 +17,65 @@ function toggleIsOpen() {
       <span>Units</span>
     </button>
     <div class="dropdownList" v-if="isOpen">
-      <button class="option">Switch to Imperial</button>
+      <button class="option"><span>Switch to Imperial</span></button>
       <div class="optionsGroup">
         <span class="label">Temperature</span>
-        <button class="option">Celsius (°C)</button>
-        <button class="option">Fahrenheit (°F)</button>
+        <button class="option">
+          <span>Celsius (°C)</span>
+          <img
+            v-if="store.selectedUDegree === 'celsius'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
+        <button class="option">
+          <span>Fahrenheit (°F)</span>
+          <img
+            v-if="store.selectedUDegree === 'fahrenheit'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
       </div>
       <div class="separator"></div>
       <div class="optionsGroup">
         <span class="label">Wind Speed</span>
-        <button class="option">km/h</button>
-        <button class="option">mph</button>
+        <button class="option">
+          <span>km/h</span>
+          <img
+            v-if="store.selectedUSpeed === 'kmh'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
+        <button class="option">
+          <span>mph</span>
+          <img
+            v-if="store.selectedUSpeed === 'mph'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
       </div>
       <div class="separator"></div>
       <div class="optionsGroup">
         <span class="label">Precipitation</span>
-        <button class="option">Millimeters (mm)</button>
-        <button class="option">Inches (in)</button>
+        <button class="option">
+          <span>Millimeters (mm)</span>
+          <img
+            v-if="store.selectedULength === 'mm'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
+        <button class="option">
+          <span>Inches (in)</span>
+          <img
+            v-if="store.selectedUSpeed === 'inch'"
+            src="/assets/images/icon-checkmark.svg"
+            alt=""
+          />
+        </button>
       </div>
     </div>
   </div>
@@ -68,11 +112,16 @@ function toggleIsOpen() {
   padding: var(--spacing-125, 0.625rem) var(--spacing-100, 0.5rem);
   align-items: center;
   gap: var(--spacing-125, 0.625rem);
+  justify-content: space-between;
 
   border-radius: var(--corner-radius-8, 0.5rem);
 
   color: var(--colors-neutral-0, #fff);
 
+  flex: 1 0 0;
+}
+
+.option > span {
   /* text-preset-7 */
   font-family: 'DM Sans';
   font-size: 1rem;
@@ -81,8 +130,6 @@ function toggleIsOpen() {
   line-height: 120%; /* 1.2rem */
   text-align: left;
   justify-content: flex-start;
-
-  flex: 1 0 0;
 }
 
 .separator {

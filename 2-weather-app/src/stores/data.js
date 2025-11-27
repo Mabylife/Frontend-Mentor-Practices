@@ -6,9 +6,7 @@ export const useWeatherStore = defineStore('weatherData', () => {
   const latitude = ref(24.1469)
   const longitude = ref(120.6839)
   const timezone = ref('Asia/Taipei')
-
   const dailyData = ref([])
-
   const weatherCode = ref(0)
 
   // 'u' stands for degree
@@ -24,10 +22,20 @@ export const useWeatherStore = defineStore('weatherData', () => {
 
   const loading = ref(false)
 
+  // for API units
+  const selectedULength = ref('mm')
+  const selectedUSpeed = ref('kmh')
+  const selectedUDegree = ref('celsius')
+
+  const apiUnit = computed(
+    () =>
+      `&wind_speed_unit=${selectedUSpeed.value}&temperature_unit=${selectedUDegree.value}&precipitation_unit=${selectedULength.value}`,
+  )
+
   async function getCurrentData() {
     try {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,weather_code,apparent_temperature&forecast_days=0`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation,weather_code,apparent_temperature&forecast_days=0${apiUnit.value}`,
       )
       if (!response.ok) {
         throw new Error('current fetch api error')
@@ -52,7 +60,7 @@ export const useWeatherStore = defineStore('weatherData', () => {
   async function getDailyData() {
     try {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=${encodeURIComponent(timezone.value)}`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=${encodeURIComponent(timezone.value)}${apiUnit.value}`,
       )
       if (!response.ok) {
         throw new Error('daily fetch api error')
@@ -71,7 +79,7 @@ export const useWeatherStore = defineStore('weatherData', () => {
 
     try {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m,weather_code&timezone=${encodeURIComponent(timezone.value)}`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m,weather_code&timezone=${encodeURIComponent(timezone.value)}${apiUnit.value}`,
       )
       if (!response.ok) {
         throw new Error('hourly fetch api error')
@@ -195,6 +203,11 @@ export const useWeatherStore = defineStore('weatherData', () => {
   const selectedWeekdayNum = ref(0)
 
   return {
+    //unit
+    selectedUDegree,
+    selectedULength,
+    selectedUSpeed,
+
     StaticWeekDayOrderLong,
     selectedWeekdayNum,
     getHourlyData,
