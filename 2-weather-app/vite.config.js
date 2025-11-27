@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue(), vueDevTools()],
-  base: '/2-weather-app/dist/',
+  base: '/Frontend-Mentor-Practices/2-weather-app/dist/',
   build: {
     outDir: 'dist',
   },
