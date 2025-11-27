@@ -45,9 +45,9 @@ async function handleSelect(result) {
   checkInput()
 
   store.loading = true
-
   await store.getCurrentData()
   await store.getDailyData()
+  await store.getHourlyData()
   store.loading = false
 }
 

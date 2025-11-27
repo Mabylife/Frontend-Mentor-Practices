@@ -1,4 +1,15 @@
 <script setup>
+import { useWeatherStore } from './stores/data'
+import { onMounted } from 'vue'
+
+onMounted(async () => {
+  store.loading = true
+  await store.getCurrentData()
+  await store.getDailyData()
+  await store.getHourlyData()
+  store.loading = false
+})
+
 import SiteLogo from './components/SiteLogo.vue'
 import UnitsDropdown from './components/Units-dropdown.vue'
 import SiteTitle from './components/Site-title.vue'
@@ -7,17 +18,7 @@ import OverviewDashboard from './components/Overview-dashboard.vue'
 import DailyForecast from './components/Daily-forecast.vue'
 import HourlyForecast from './components/Hourly-forecast..vue'
 
-import { useWeatherStore } from './stores/data'
-import { onMounted } from 'vue'
-
 const store = useWeatherStore()
-
-onMounted(async () => {
-  store.loading = true
-  await store.getCurrentData()
-  await store.getDailyData()
-  store.loading = false
-})
 </script>
 
 <template>

@@ -1,27 +1,34 @@
 <script setup>
 import { ref } from 'vue'
+import { useWeatherStore } from '@/stores/data'
+const store = useWeatherStore()
 
 const isOpen = ref(false)
 
 function toggleIsOpen() {
   isOpen.value = !isOpen.value
 }
+
+function handleSelectDay(i) {
+  store.selectedWeekdayNum = i
+  isOpen.value = false
+}
 </script>
 
 <template>
   <div class="daysDropdown-container">
-    <button @click="toggleIsOpen">
-      <span>Tuesday</span>
+    <button v-if="!store.loading" @click="toggleIsOpen">
+      <span>{{ store.StaticWeekDayOrderLong[store.selectedWeekdayNum] }}</span>
+      <img src="/assets/images/icon-dropdown.svg" alt="" />
+    </button>
+    <button v-if="store.loading">
+      <span>–</span>
       <img src="/assets/images/icon-dropdown.svg" alt="" />
     </button>
     <div class="dropdown-container" v-if="isOpen">
-      <button class="option">Monday</button>
-      <button class="option">Tuesday</button>
-      <button class="option">Wednesday</button>
-      <button class="option">Thursday</button>
-      <button class="option">Friday</button>
-      <button class="option">Saturday</button>
-      <button class="option">Sunday</button>
+      <button @click="handleSelectDay(i - 1)" class="option" v-for="i in 7">
+        {{ store.StaticWeekDayOrderLong[i - 1] }}
+      </button>
     </div>
   </div>
 </template>

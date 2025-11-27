@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, Static } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useWeatherStore = defineStore('weatherData', () => {
@@ -64,6 +64,25 @@ export const useWeatherStore = defineStore('weatherData', () => {
     }
   }
 
+  const hourlyData = ref([])
+
+  async function getHourlyData() {
+    selectedWeekdayNum.value = weekdayNum.value
+
+    try {
+      const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude.value}&longitude=${longitude.value}&hourly=temperature_2m,weather_code&timezone=${encodeURIComponent(timezone.value)}`,
+      )
+      if (!response.ok) {
+        throw new Error('hourly fetch api error')
+      }
+      const data = await response.json()
+      hourlyData.value = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   function code2icon(code) {
     const iconName = [
       'drizzle', // 51 53 55 56 57
@@ -107,6 +126,15 @@ export const useWeatherStore = defineStore('weatherData', () => {
   }
 
   const StaticWeekDayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  const StaticWeekDayOrderLong = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ]
 
   const now = ref(new Date())
   setInterval(() => {
@@ -155,6 +183,8 @@ export const useWeatherStore = defineStore('weatherData', () => {
     }),
   )
 
+  const weekdayNum = computed(() => StaticWeekDayOrder.indexOf(shortWeekDay.value))
+
   const weekDayOrder = computed(() => {
     return [
       ...StaticWeekDayOrder.slice(StaticWeekDayOrder.indexOf(shortWeekDay.value)),
@@ -162,7 +192,15 @@ export const useWeatherStore = defineStore('weatherData', () => {
     ]
   })
 
+  const selectedWeekdayNum = ref(0)
+
   return {
+    StaticWeekDayOrderLong,
+    selectedWeekdayNum,
+    getHourlyData,
+    hourlyData,
+    StaticWeekDayOrder,
+    weekdayNum,
     weekDayOrder,
     year,
     day,

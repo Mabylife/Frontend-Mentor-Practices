@@ -1,4 +1,8 @@
 <script setup>
+import { useWeatherStore } from '@/stores/data'
+
+const store = useWeatherStore()
+
 const props = defineProps({
   place: {
     type: Number,
@@ -35,10 +39,29 @@ const hoursArray = [
 </script>
 
 <template>
-  <div class="hourlyForecastBlock-container">
-    <img class="icon" src="/assets/images/icon-snow.webp" alt="weather indicator" />
+  <div v-if="!store.loading" class="hourlyForecastBlock-container">
+    <img
+      class="icon"
+      :src="
+        store.code2icon(
+          store?.hourlyData?.hourly?.weather_code[place + store.selectedWeekdayNum * 24],
+        )
+      "
+      alt="weather indicator"
+    />
     <h5>{{ hoursArray[place] }}</h5>
-    <p>20°</p>
+    <p>
+      {{
+        Math.round(
+          store?.hourlyData?.hourly?.temperature_2m[place + store.selectedWeekdayNum * 24],
+        )
+      }}°
+    </p>
+  </div>
+  <div v-else class="hourlyForecastBlock-container">
+    <div class="icon"></div>
+    <h5 class="loading">-</h5>
+    <p class="loading">-</p>
   </div>
 </template>
 
@@ -88,5 +111,9 @@ p {
   font-style: normal;
   font-weight: 500;
   line-height: 120%; /* 1.2rem */
+}
+
+.loading {
+  color: transparent;
 }
 </style>
