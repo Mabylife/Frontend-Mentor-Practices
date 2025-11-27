@@ -107,52 +107,60 @@ export const useWeatherStore = defineStore('weatherData', () => {
   }
 
   const StaticWeekDayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  const year = ref(0)
-  const month = ref(0)
-  const monthName = ref('')
-  const day = ref(0)
-  const weekDay = ref('')
-  const shortWeekDay = ref('')
-
-  const weekDayOrder = ref([])
 
   const now = ref(new Date())
   setInterval(() => {
     now.value = new Date()
-
-    year.value = now.value.toLocaleString('en-US', {
-      year: 'numeric',
-      timezone,
-    })
-
-    month.value = now.value.toLocaleString('en-US', {
-      month: '2-digit',
-      timezone,
-    })
-
-    monthName.value = now.value.toLocaleString('en-US', {
-      month: 'long',
-      timezone,
-    })
-
-    day.value = now.value.toLocaleString('en-US', {
-      day: '2-digit',
-      timezone,
-    })
-
-    weekDay.value = now.value.toLocaleString('en-US', {
-      weekday: 'long',
-      timezone,
-    })
-
-    shortWeekDay.value = now.value.toLocaleString('en-US', {
-      weekday: 'short',
-      timezone,
-    })
-
-    let i = StaticWeekDayOrder.indexOf(shortWeekDay.value)
-    weekDayOrder.value = [...StaticWeekDayOrder.slice(i), ...StaticWeekDayOrder.slice(0, i)]
   }, 1000)
+
+  const year = computed(() =>
+    now.value.toLocaleString('en-US', {
+      year: 'numeric',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const month = computed(() =>
+    now.value.toLocaleString('en-US', {
+      month: '2-digit',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const monthName = computed(() =>
+    now.value.toLocaleString('en-US', {
+      month: 'long',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const day = computed(() =>
+    now.value.toLocaleString('en-US', {
+      day: '2-digit',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const weekDay = computed(() =>
+    now.value.toLocaleString('en-US', {
+      weekday: 'long',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const shortWeekDay = computed(() =>
+    now.value.toLocaleString('en-US', {
+      weekday: 'short',
+      timeZone: timezone.value,
+    }),
+  )
+
+  const weekDayOrder = computed(() => {
+    return [
+      ...StaticWeekDayOrder.slice(StaticWeekDayOrder.indexOf(shortWeekDay.value)),
+      ...StaticWeekDayOrder.slice(0, StaticWeekDayOrder.indexOf(shortWeekDay.value)),
+    ]
+  })
 
   return {
     weekDayOrder,
